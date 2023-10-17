@@ -350,7 +350,91 @@ public class AlgorithmPractices {
             }
         return maxContainer;
     }
+    static int maxArea2(int[] height) {
+        int maxContainer =0;
+        int left =0, right=height.length-1;
+        while(left < right){
+            maxContainer= maxContainer > Math.min(height[left],height[right])*(right-left) ? maxContainer: Math.min(height[left],height[right])*(right-left);
+            if(height[left]< height[right]) left++;
+            else right--;
+        }
+        return maxContainer;
+    }
 
+    //12. Integer to Roman
+    String intToRoam(int  num){
+        String ones[] = {"","I","II","III","IV","V","V","VI","VII","VIII","IX","X"};
+        String sec[] =  {"","X","XX","XXX","XL","L","LX","LXX","LXXX","XC","C"};
+        String thr[] =  {"","C","CC","CCC","CD","D","DC","DCC","DCCC","CM","M"};
+        String four[] = {"","M","MM","MMM"};
+        return four[num/1000] +thr[num%1000] + sec[num%100] +ones[num%10];
+    }
+
+    static int change(int amount, int[] coins){
+        int n =coins.length;
+        int[][] dp = new int[n + 1][amount + 1];
+        for (int i = 0; i <= n; i++) dp[i][0] = 1;
+        for(int i=1; i<=n; i++)
+            for(int j=1; j<= amount;j++ ){
+                if(j < coins[i-1] )
+                    dp[i][j]= dp[i-1][j];
+                else{
+                    dp[i][j] =dp[i-1][j] + dp[i][j - coins[i-1] ];
+                }
+            }
+        return dp[n][amount];
+    }
+
+    //13. Roman to Integer
+    static int romanToInt(String s){
+        Map<Character,Integer> Mapmap = new HashMap<>();
+        Mapmap.put('I',1);
+        Mapmap.put('V',5);
+        Mapmap.put('X',10);
+        Mapmap.put('L',50);
+        Mapmap.put('C',100);
+        Mapmap.put('D',500);
+        Mapmap.put('M',1000);
+        List<Integer> rows = new ArrayList<Integer>();
+        int curInt =0, preInt =0 ;
+        for(char c : s.toCharArray()) {
+            Set<Character> skey = Mapmap.keySet();
+            for (char s1 : skey) {
+                if(c == s1)
+                    rows.add(Mapmap.get(s1));
+            }
+        }
+        preInt = rows.get(0);
+        int ans = 0;
+        for(int i=1; i<rows.size();i++){
+            curInt= rows.get(i);
+            if(preInt < curInt){
+                ans-= preInt;
+            }else ans += preInt;
+            preInt = curInt;
+        }
+        ans +=preInt;
+        return ans;
+    }
+
+    //14. Longest Common Prefix
+    static String longestCommonPrefix(String[] strs) {
+        if(strs.length == 1) return strs[0];
+        String ansStr="";
+        for(int i=1; i< strs.length; i++){
+            String tmp= "";
+            int minLen = i==1 ? Math.min(strs[0].length(),strs[i].length()) : Math.min(ansStr.length(),strs[i].length());
+            for(int j=0; j< minLen ;j++) {
+                if (i == 1 && strs[i].charAt(j) == strs[0].charAt(j)) {
+                    ansStr += strs[i].charAt(j);
+                } else if (i > 1 && strs[i].charAt(j) == ansStr.charAt(j)) {
+                    tmp += strs[i].charAt(j);
+                } else break;
+            }
+            ansStr = i==1 ? ansStr: tmp;
+        }
+        return ansStr;
+    }
     public static void main(String[] args) throws IOException {
         //String s="babad";
         // "boqylncwfahjzvawrojyhqiymirlkfzkhtvmbjnbfjxzewqqqcfnximdnrxtrbafkimcqvuprgrjetrecqkltforcudmbpofcxqdcirnaciggflvsialdjtjnbrayeguklcbdbkouodxbmhgtaonzqftkebopghypjzfyqutytbcfejhddcrinopynrprohpbllxvhitazsjeyymkqkwuzfenhphqfzlnhenldbigzmriikqkgzvszztmvylzhbfjoksyvfdkvshjzdleeylqwsapapduxrfbwskpnhvmagkolzlhakvfbvcewvdihqceecqhidvwecvbfvkahlzlokgamvhnpkswbfrxudpapaswqlyeeldzjhsvkdfvyskojfbhzlyvmtzzsvzgkqkiirmzgibdlnehnlzfqhphnefzuwkqkmyyejszatihvxllbphorprnyponircddhjefcbtytuqyfzjpyhgpobektfqznoatghmbxdouokbdbclkugeyarbnjtjdlaisvlfggicanricdqxcfopbmducroftlkqcertejrgrpuvqcmikfabrtxrndmixnfcqqqwezxjfbnjbmvthkzfklrimyiqhyjorwavzjhafwcnlyqob";//"pwwkew";
@@ -376,18 +460,25 @@ public class AlgorithmPractices {
 
         // 7
         //System.out.println(1<<30);
-       // System.out.println(reverse(1534236469));
+        // System.out.println(reverse(1534236469));
 
         //8. String to Integer (atoi)
-//words and 987
+        //words and 987
         //   42
-       // System.out.println(myAtoi("21474836460") );
-
+        // System.out.println(myAtoi("21474836460") );
         //9. Palindrome Number
-        System.out.println(isPalindrome(123) );
+        //System.out.println(isPalindrome(123) );
 
         //
-        int[] height = new int [] {1,8,6,2,5,4,8,3,7};
-        System.out.println(maxArea(height) );
-    }
-}
+        //int[] height = new int [] {1,8,6,2,5,4,8,3,7};
+        //System.out.println(maxArea2(height) );
+        //
+        // int amount = 5;
+        // int[] coins = new int[]{1, 2, 5};
+        // System.out.println(change(amount, coins));
+
+        //System.out.println(romanToInt("CDXIV"));
+        String[] strs = new String[] {"a"};
+        System.out.println(longestCommonPrefix(strs));
+    } // main
+}// class
