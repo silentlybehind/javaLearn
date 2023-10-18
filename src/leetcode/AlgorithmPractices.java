@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.lang.Math.max;
 
@@ -435,6 +436,43 @@ public class AlgorithmPractices {
         }
         return ansStr;
     }
+    //15. 3Sum
+    static List<List<Integer>> threeSum(int[] nums) {
+        HashSet<List<Integer>> set = new HashSet<>();
+        // 将数组转化为ArrayList
+        List<Integer> numsList = Arrays.stream(nums).boxed().collect(Collectors.toList());
+        numsList.sort(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o1-o2;
+            }
+        });
+        //for(int  i=0; i<numsList.size(); i++)
+        //    {System.out.print(numsList.get(i));System.out.print(" "); }
+        //System.out.println();
+        for(int i=0; i< numsList.size(); i++) {
+            int j=i+1, k = numsList.size()-1 ;
+            while(j < k ){
+                int fisrt = numsList.get(i);
+                int sec = numsList.get(j);
+                int thr = numsList.get(k);
+
+                // 三元组的链表去重
+                if(fisrt + sec + thr == 0 ) {
+                    j++;k--;
+                    //res.add(new  ArrayList<>(){ {add(fisrt); add(sec);add(thr);}});
+                    set.add(new  ArrayList<>(){ {add(fisrt); add(sec);add(thr);}});
+                }
+                else if(fisrt + sec + thr < 0){
+                    j++;
+                } else {
+                    k--;
+                }
+            }
+        }
+        List<List<Integer>> res = new  ArrayList<>(set) ;
+        return res;
+    }
     public static void main(String[] args) throws IOException {
         //String s="babad";
         // "boqylncwfahjzvawrojyhqiymirlkfzkhtvmbjnbfjxzewqqqcfnximdnrxtrbafkimcqvuprgrjetrecqkltforcudmbpofcxqdcirnaciggflvsialdjtjnbrayeguklcbdbkouodxbmhgtaonzqftkebopghypjzfyqutytbcfejhddcrinopynrprohpbllxvhitazsjeyymkqkwuzfenhphqfzlnhenldbigzmriikqkgzvszztmvylzhbfjoksyvfdkvshjzdleeylqwsapapduxrfbwskpnhvmagkolzlhakvfbvcewvdihqceecqhidvwecvbfvkahlzlokgamvhnpkswbfrxudpapaswqlyeeldzjhsvkdfvyskojfbhzlyvmtzzsvzgkqkiirmzgibdlnehnlzfqhphnefzuwkqkmyyejszatihvxllbphorprnyponircddhjefcbtytuqyfzjpyhgpobektfqznoatghmbxdouokbdbclkugeyarbnjtjdlaisvlfggicanricdqxcfopbmducroftlkqcertejrgrpuvqcmikfabrtxrndmixnfcqqqwezxjfbnjbmvthkzfklrimyiqhyjorwavzjhafwcnlyqob";//"pwwkew";
@@ -478,7 +516,21 @@ public class AlgorithmPractices {
         // System.out.println(change(amount, coins));
 
         //System.out.println(romanToInt("CDXIV"));
-        String[] strs = new String[] {"a"};
-        System.out.println(longestCommonPrefix(strs));
+        //String[] strs = new String[] {"a"};
+        // System.out.println(longestCommonPrefix(strs));
+
+        //15
+        int[] nums = new int[] {0,0,0};
+        List<List<Integer>>  res = threeSum(nums);
+        for(List<Integer> i : res) {
+            for (Integer j : i) {
+                System.out.print(j);
+                System.out.print(" ");
+            }
+            System.out.println();
+        }
+
     } // main
 }// class
+
+
