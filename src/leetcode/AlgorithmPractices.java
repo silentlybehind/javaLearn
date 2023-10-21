@@ -473,6 +473,81 @@ public class AlgorithmPractices {
         List<List<Integer>> res = new  ArrayList<>(set) ;
         return res;
     }
+
+    /**
+     * 解题思路同 三个数求和为0。
+     * 1 数据排序 2 数组中初始化三个位置 i j k，增加j或者递减k的位置，比较当前数值是否和目标数值接近
+     * @param nums
+     * @param target
+     * @return
+     */
+    static int threeSumClosest(int[] nums, int target) {
+        // 将数组转化为ArrayList
+        List<Integer> numsList = Arrays.stream(nums).boxed().collect(Collectors.toList());
+        numsList.sort(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o1-o2;
+            }
+        });
+        int minSum = numsList.get(0)+numsList.get(1)+numsList.get(2);
+        for(int i=0; i< numsList.size() -2; i++) {
+            int j = i + 1, k = numsList.size() - 1;
+            while (j < k) {
+                int fisrt = numsList.get(i);
+                int sec = numsList.get(j);
+                int thr = numsList.get(k);
+                int tmp = fisrt + sec + thr ;
+                if (Math.abs(tmp - target ) < Math.abs(minSum - target ) ) {
+                    minSum =tmp;
+                }
+                if(tmp < target ) j++; else {k--; }
+            }
+        }
+       return minSum;
+    }
+
+    //17. Letter Combinations of a Phone Number
+    /**
+    解题思路： 1 输出任意的组合数代码- 递归  2 输入字符串的形式
+
+     */
+    static void numCombine(String digits, List<String> res, int i, String letters, String comStr){
+        if(i == digits.length()) {
+            if(comStr.length()>0)
+            res.add(comStr);
+            comStr="";
+            return ;
+        }
+        int ind=0;
+        switch (digits.charAt(i)){
+            case '2': ind=1; break;
+            case '3': ind=4; break;
+            case '4': ind=7; break;
+            case '5': ind=10; break;
+            case '6': ind=13; break;
+            case '7': ind=16; break;
+            case '8': ind=20; break;
+            case '9': ind=23; break;
+            default:
+                break;
+        }
+        int k=3;
+        if(digits.charAt(i)=='7' || digits.charAt(i) =='9') k=4;
+        for(int j = ind;(j-ind) < k ;j++){
+            comStr+=letters.charAt(j);
+            numCombine(digits,res, i+1 , letters,  comStr);
+            comStr = comStr.substring(0, comStr.length() - 1);
+        }
+    }
+    static List<String> letterCombinations(String digits) {
+        String letters ="1abcdefghijklmnopqrstuvwxyx";
+        List<String> res = new ArrayList<>();
+        String comStr="";
+        numCombine(digits,res ,0, letters ,comStr);
+        return res;
+    }
+
     public static void main(String[] args) throws IOException {
         //String s="babad";
         // "boqylncwfahjzvawrojyhqiymirlkfzkhtvmbjnbfjxzewqqqcfnximdnrxtrbafkimcqvuprgrjetrecqkltforcudmbpofcxqdcirnaciggflvsialdjtjnbrayeguklcbdbkouodxbmhgtaonzqftkebopghypjzfyqutytbcfejhddcrinopynrprohpbllxvhitazsjeyymkqkwuzfenhphqfzlnhenldbigzmriikqkgzvszztmvylzhbfjoksyvfdkvshjzdleeylqwsapapduxrfbwskpnhvmagkolzlhakvfbvcewvdihqceecqhidvwecvbfvkahlzlokgamvhnpkswbfrxudpapaswqlyeeldzjhsvkdfvyskojfbhzlyvmtzzsvzgkqkiirmzgibdlnehnlzfqhphnefzuwkqkmyyejszatihvxllbphorprnyponircddhjefcbtytuqyfzjpyhgpobektfqznoatghmbxdouokbdbclkugeyarbnjtjdlaisvlfggicanricdqxcfopbmducroftlkqcertejrgrpuvqcmikfabrtxrndmixnfcqqqwezxjfbnjbmvthkzfklrimyiqhyjorwavzjhafwcnlyqob";//"pwwkew";
@@ -520,10 +595,27 @@ public class AlgorithmPractices {
         // System.out.println(longestCommonPrefix(strs));
 
         //15
-        int[] nums = new int[] {0,0,0};
-        List<List<Integer>>  res = threeSum(nums);
-        for(List<Integer> i : res) {
-            for (Integer j : i) {
+        // int[] nums = new int[] {0,0,0};
+        // List<List<Integer>>  res = threeSum(nums);
+        // for(List<Integer> i : res) {
+        //     for (Integer j : i) {
+        //         System.out.print(j);
+        //         System.out.print(" ");
+        //     }
+        //     System.out.println();
+        // }
+
+        // int[] nums  = new int[] {1,1,1,0};
+        // int target = 100;
+        // System.out.println( threeSumClosest(nums,  target));
+
+        // System.out.println( threeSumClosest(nums,  target));
+
+        // 17
+        String digits ="23";
+        List<String>  res = letterCombinations( digits);
+        for(String i : res) {
+            for (char j : i.toCharArray()) {
                 System.out.print(j);
                 System.out.print(" ");
             }
