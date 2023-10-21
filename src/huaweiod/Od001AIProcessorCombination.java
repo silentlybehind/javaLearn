@@ -87,6 +87,7 @@ public class Od001AIProcessorCombination {
         else if(num== 8) {
             if(4 == lineOne.length && 4 == lineTwo.length  )
                 res.add( new ArrayList<>(){
+                    // list 初始化 https://blog.csdn.net/qq_44695727/article/details/106517147
                     {   addAll(Arrays.stream(arr).boxed().collect(Collectors.toList()));
                     }
                 });
