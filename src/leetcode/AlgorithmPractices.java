@@ -225,7 +225,6 @@ public class AlgorithmPractices {
                 {stack.push(curInterval);break;}
                 topInterval =  stack.isEmpty()?null : stack.peek();
             }
-
         }
         int stacksize = stack.size();
         // 遍历堆栈中的每个整数数组
