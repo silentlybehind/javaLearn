@@ -57,7 +57,7 @@ public class Od003CountOoutstandingStudents {
 
         }
 
-        //对hashmap的 value进行排序
+        //输出员工打卡次数
         Set<Map.Entry<String, int[]>> tmpEntrySet =  Employeemap.entrySet();
         Iterator<Map.Entry<String, int[]>> iter = tmpEntrySet.iterator();  //获取entrySet集合的迭代器,Map.Entry<K, V>为迭代元素的类型
         while(iter.hasNext()){
@@ -66,6 +66,27 @@ public class Od003CountOoutstandingStudents {
             int[] value = item.getValue();
             System.out.println("key:" + key + "-->value:" + value[0] +" "+ value[1]);
         }
+
+        //对hashmap的 value进行排序
+        List<int[]> ResList = new ArrayList<>();
+        Set<Map.Entry<String, int[]>> tmpEntrySet1 =  Employeemap.entrySet();
+        Iterator<Map.Entry<String, int[]>> iter1 = tmpEntrySet1.iterator();  //获取entrySet集合的迭代器,Map.Entry<K, V>为迭代元素的类型
+        while(iter1.hasNext()){
+            Map.Entry<String, int[]> item = iter1.next();
+            String key = item.getKey();
+            int[] value = item.getValue();
+            ResList.add(new int[]{value[0] , value[1], Integer.parseInt(key)});
+        }
+        //二元数据排序
+        //第二个元素从大到小排序
+        // 第一个元素从小到大
+        ResList.sort((a, b) -> a[0] == b[0] ? a[1] - b[1] : b[0] - a[0]);
+        int cnt =0;
+        for (int[] i : ResList) {
+            if(cnt++ == 5) break;
+            System.out.println("id:" + i[2] +" " );
+        }
+
 
     }
 }
